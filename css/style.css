@@ -73,6 +73,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .cell-grid-m {
@@ -98,11 +99,17 @@ main {
 .cell-active {
     background-color: #6495ed;
     color: white;
+    pointer-events: none;
 }
 
 .bomb-cell {
     background-color: red;
     color: white;
+    pointer-events: none;
+}
+
+#result {
+    display: none;
 }
 
 

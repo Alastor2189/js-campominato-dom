@@ -48,7 +48,6 @@ document.getElementById("btn-play").addEventListener("click",
             singleCell.innerHTML += `<span>${cellGrid}</span>`;
 
             singleCell.classList.add("cell-grid");
-            console.log(singleCell);
 
             switch (level) {
                 case 'easy':
@@ -64,7 +63,7 @@ document.getElementById("btn-play").addEventListener("click",
 
             singleCell.addEventListener("click", function() {
                 this.classList.add("cell-active");
-                handleCellClic(singleCell, arrayBomb);
+                handleCellClic(singleCell, arrayBomb, numberBox, numBomb);
             });
             cellUndred.append(singleCell);
         }
@@ -73,14 +72,18 @@ document.getElementById("btn-play").addEventListener("click",
         const numBomb = 16;
         const arrayBomb = generateRandomBomb(numBomb, numberBox);
         console.log(arrayBomb);
-        const cellSafe = [];
-        const safeNumbers = numberBox - numBomb;
+
+
     }
 
 
 
 
 );
+
+const cellSafe = [];
+let winLose;
+
 /**
  * 
  * @param {Number} numberQuantity --> quantità dei numeri da generare
@@ -104,15 +107,45 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function handleCellClic(element, array) {
+function handleCellClic(element, array, totBox, totBomb) {
 
     const clickedNumber = parseInt(element.querySelector("span").textContent);
     console.log(clickedNumber, typeof(clickedNumber));
 
     if (array.includes(clickedNumber)) {
         element.classList.add("bomb-cell");
+        winLose = "bomb";
+        console.log("Hai straperso", cellSafe.length);
+        thanos(cellSafe.length, winLose);
     } else {
         element.classList.add("cell-active");
     }
+    cellSafe.push(clickedNumber);
+    console.log(cellSafe);
+
+    const winnerNumbers = totBox - totBomb;
+
+    if (cellSafe.length >= winnerNumbers) {
+        winLose = "sei salvo";
+        thanos(cellSafe.length, winLose);
+    }
+
+}
+
+/** 
+ * funzione relativa alla sconfitta
+ * @param {Number} --> numero tentativi svolti
+ * @param {String} --> epilogo della partita, nel caso il giocatore abbia perso
+ */
+function thanos(numSafeNumbers, winLose) {
+
+    let resultGame;
+
+    if (winLose === "bomb") {
+        resultGame = `Hai perso, sei scarso, ma hai indovinato n ${numSafeNumbers} cella/e`;
+    } else {
+        resultGame = "Hai vinto";
+    }
+    document.getElementById("result").innerHTML = resultGame;
 
 }
