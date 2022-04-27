@@ -45,7 +45,7 @@ document.getElementById("btn-play").addEventListener("click",
             cellGrid = i;
 
             const singleCell = document.createElement("div");
-            singleCell.innerHTML += `${cellGrid}`;
+            singleCell.innerHTML += `<span>${cellGrid}</span>`;
 
             singleCell.classList.add("cell-grid");
             console.log(singleCell);
@@ -64,7 +64,7 @@ document.getElementById("btn-play").addEventListener("click",
 
             singleCell.addEventListener("click", function() {
                 this.classList.add("cell-active");
-                console.log(this);
+                handleCellClic(singleCell, arrayBomb);
             });
             cellUndred.append(singleCell);
         }
@@ -78,6 +78,8 @@ document.getElementById("btn-play").addEventListener("click",
     }
 
 
+
+
 );
 /**
  * 
@@ -88,15 +90,29 @@ document.getElementById("btn-play").addEventListener("click",
 
 function generateRandomBomb(numberQuantity, maxLimit) {
     const numbersArray = [];
-    while (numbersArray.length < numBomb) {
+    while (numbersArray.length < numberQuantity) {
         const randomNumber = getRndInteger(1, maxLimit);
         if (!numbersArray.includes(randomNumber)) {
             numbersArray.push(randomNumber);
         }
     }
+    return numbersArray;
 
 }
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function handleCellClic(element, array) {
+
+    const clickedNumber = parseInt(element.querySelector("span").textContent);
+    console.log(clickedNumber, typeof(clickedNumber));
+
+    if (array.includes(clickedNumber)) {
+        element.classList.add("bomb-cell");
+    } else {
+        element.classList.add("cell-active");
+    }
+
 }
